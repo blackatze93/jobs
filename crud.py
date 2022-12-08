@@ -1,10 +1,12 @@
+import uuid
+
 from sqlalchemy.orm import Session
 
 import models
 import schemas
 
 
-def get_user(db: Session, user_id: int):
+def get_user(db: Session, user_id: uuid.UUID):
     return db.query(models.User).filter(models.User.id == user_id).first()
 
 
@@ -21,4 +23,20 @@ def create_user(db: Session, user: schemas.UserCreate):
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
+    return db_user
+
+
+def update_user(db: Session, user_id: uuid.UUID, user: schemas.UserUpdate):
+    db_user = get_user(db, user_id=user_id)
+    for key, value in user.dict(exclude_unset=True).items():
+        setattr(db_user, key, value)
+    db.commit()
+    db.refresh(db_user)
+    return db_user
+
+
+def delete_user(db: Session, user_id: uuid.UUID):
+    db_user = get_user(db, user_id=user_id)
+    db.delete(db_user)
+    db.commit()
     return db_user

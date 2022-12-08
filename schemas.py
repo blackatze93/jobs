@@ -15,13 +15,14 @@ class UserBase(BaseModel):
 
     @root_validator(pre=True)
     def validate_skills(cls, values):
-        if not isinstance(values.get('skills'), list):
-            raise ValueError('skills must be a list')
-        for skill in values.get('skills'):
-            if not isinstance(skill, dict):
-                raise ValueError('skills must be a list of dicts')
-            if len(skill) != 1:
-                raise ValueError('skills must be a list of dicts with one key')
+        if values.get("skills"):
+            if not isinstance(values.get('skills'), list):
+                raise ValueError('skills must be a list')
+            for skill in values.get('skills'):
+                if not isinstance(skill, dict):
+                    raise ValueError('skills must be a list of dicts')
+                if len(skill) != 1:
+                    raise ValueError('skills must be a list of dicts with one key')
         return values
 
     class Config:
@@ -30,6 +31,14 @@ class UserBase(BaseModel):
 
 class UserCreate(UserBase):
     pass
+
+
+class UserUpdate(UserBase):
+    first_name: str = None
+    last_name: str = None
+    email: EmailStr = None
+    years_previous_experience: int = None
+    skills: List[Dict[str, int]] = None
 
 
 class User(UserBase):
