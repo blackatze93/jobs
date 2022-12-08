@@ -1,3 +1,5 @@
+babel
+email-validator
 fastapi
 psycopg2
 pydantic
