@@ -1,7 +1,7 @@
 import uuid
 from typing import List
 
-from fastapi import FastAPI, Depends, HTTPException
+from fastapi import FastAPI, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 
 from . import crud, models, schemas
@@ -137,3 +137,15 @@ def delete_vacancy(vacancy_id: uuid.UUID, db: Session = Depends(get_db)):
     if db_vacancy is None:
         raise HTTPException(status_code=404, detail="Vacancy not found")
     return crud.delete_vacancy(db=db, vacancy_id=vacancy_id)
+
+
+@app.get("/search_vacancies/")
+def search_vacancies(
+        query: str = Query(
+            title="Query",
+            description="Search query",
+            example="python 5 años, sql 3 años, django 2 años"
+        ),
+        db: Session = Depends(get_db)):
+    vacancies = crud.search_vacancies(db, query=query)
+    return vacancies

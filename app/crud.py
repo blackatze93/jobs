@@ -111,3 +111,30 @@ def delete_company(db: Session, company_id: uuid.UUID):
     db.delete(db_company)
     db.commit()
     return db_company
+
+
+def search_vacancies(db: Session, query: str):
+    split = query.lower().split(',')
+    dict_data = {}
+
+    for i in range(len(split)):
+        split[i] = split[i].strip().split(' años')
+        dict_data[split[i][0].split(' ')[0]] = split[i][0].split(' ')[1]
+
+    vacancies = db.query(models.Vacancy).all()
+    vacancies_filtered = []
+
+    for vacancy in vacancies:
+        total = len(vacancy.required_skills)
+        apto = 0
+        for skill in vacancy.required_skills:
+            if list(skill.keys())[0].lower() in dict_data.keys():
+                experience = int(dict_data[list(skill.keys())[0].lower()])
+                required_experience = int(list(skill.values())[0])
+                if experience >= required_experience:
+                    apto += 1
+
+        if (apto / total) >= 0.5:
+            vacancies_filtered.append(vacancy)
+
+    return vacancies_filtered
