@@ -1,6 +1,6 @@
 FROM python:3.10
 
-WORKDIR /app
+WORKDIR /code
 
 ENV PYTHONUNBUFFERED=1
 
@@ -15,7 +15,7 @@ RUN pip-compile /app/requirements.in
 RUN pip install -r /app/requirements.txt
 
 
-COPY . /app
+COPY . /code
 
 EXPOSE 8000
-CMD ["python", "main.py"]
+CMD ["python", "app/main.py"]

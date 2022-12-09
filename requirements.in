@@ -3,6 +3,7 @@ email-validator
 fastapi
 psycopg2
 pydantic
+python-dotenv
 sqlalchemy
 sqlalchemy_utils
 uvicorn
