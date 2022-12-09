@@ -16,8 +16,8 @@ This is a simple API to view vacancy jobs. It is built with FastAPI and PostgreS
 [MIT](https://choosealicense.com/licenses/mit/)
 
 ## TODO
-- [ ] Add models
-- [ ] Add endpoints
-- [ ] Add tests
+- [X] Add models
+- [X] Add .env file to configure the database
+- [X] Add tests
+- [X] Add endpoints
 - [ ] Add JWT authentication to access the API
-- [ ] Add .env file to configure the database

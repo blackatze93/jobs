@@ -1,6 +1,6 @@
-from sqlalchemy import Column, ForeignKey, Integer, String, JSON
+from sqlalchemy import Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
-from sqlalchemy_utils import UUIDType, EmailType, URLType, CurrencyType, JSONType
+from sqlalchemy_utils import UUIDType, EmailType, URLType, JSONType
 import uuid
 
 from .database import Base
@@ -31,7 +31,7 @@ class Vacancy(Base):
     id = Column(UUIDType(binary=False), primary_key=True, index=True, default=uuid.uuid4)
     position_name = Column(String)
     salary = Column(Integer)
-    currency = Column(CurrencyType)
+    currency = Column(String)
     link = Column(URLType)
     required_skills = Column(JSONType)
 

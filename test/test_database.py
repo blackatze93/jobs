@@ -68,3 +68,56 @@ def test_create_user():
     data = response.json()
     assert data["email"] == "un.test.no.hace.mal@gmail.com"
     assert data["id"] == user_id
+
+
+def test_create_company_and_vacancy():
+    json_test = {
+        "name": "Test Company",
+        "email": "company.test@gmail.com",
+        "website": "https://www.test.com"
+    }
+    response = client.post(
+        "/companies/",
+        json=json_test
+    )
+    assert response.status_code == 200, response.text
+    data = response.json()
+    assert data["email"] == "company.test@gmail.com"
+    assert "id" in data
+    company_id = data["id"]
+
+    response = client.get(f"/companies/{company_id}")
+    assert response.status_code == 200, response.text
+    data = response.json()
+    assert data["email"] == "company.test@gmail.com"
+    assert data["id"] == company_id
+
+    json_test = {
+        "position_name": "Python Dev",
+        "salary": 9999999,
+        "currency": "COP",
+        "link": "https://www.test.com",
+        "required_skills": [
+            {
+                "Python": 1
+            },
+            {
+                "NoSQL": 2
+            }
+        ]
+    }
+    response = client.post(
+        f"/companies/{company_id}/vacancies/",
+        json=json_test
+    )
+    assert response.status_code == 200, response.text
+    data = response.json()
+    assert data["position_name"] == "Python Dev"
+    assert "id" in data
+    vacancy_id = data["id"]
+
+    response = client.get(f"/vacancies/{vacancy_id}")
+    assert response.status_code == 200, response.text
+    data = response.json()
+    assert data["position_name"] == "Python Dev"
+    assert data["id"] == vacancy_id
