@@ -1,8 +1,10 @@
 babel
 email-validator
 fastapi
+httpx
 psycopg2
 pydantic
+pytest
 python-dotenv
 sqlalchemy
 sqlalchemy_utils

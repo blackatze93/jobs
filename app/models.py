@@ -3,7 +3,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy_utils import UUIDType, EmailType, URLType, CurrencyType, JSONType
 import uuid
 
-from database import Base
+from .database import Base
 
 
 class User(Base):

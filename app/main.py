@@ -3,12 +3,9 @@ from typing import List
 
 from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
-import uvicorn
 
-import crud
-import models
-import schemas
-from database import engine, SessionLocal
+from . import crud, models, schemas
+from .database import engine, SessionLocal
 
 app = FastAPI()
 
@@ -25,7 +22,7 @@ def get_db():
 
 @app.get("/")
 async def root():
-    return {"message": "Hello World"}
+    return {"msg": "Hello World"}
 
 
 @app.get("/users/", response_model=List[schemas.User])
@@ -64,7 +61,3 @@ def delete_user(user_id: uuid.UUID, db: Session = Depends(get_db)):
     if db_user is None:
         raise HTTPException(status_code=404, detail="User not found")
     return crud.delete_user(db=db, user_id=user_id)
-
-
-if __name__ == "__main__":
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
